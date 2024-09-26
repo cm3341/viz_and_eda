@@ -36,7 +36,7 @@ Making our first plot :)
 ```{r}
 
 ggplot(weather_df, aes(x = tmin, y = tmax)) +
-  geom_point
+  geom_point()
 
 ```
 
@@ -48,5 +48,130 @@ ggp_weather_scatterplot =
 
 ggp_weather_scatterplot
   
+```
+
+Fancier scatterplot
+
+```{r}
+ggplot(weather_df, aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name))
+```
+
+```{r}
+ggplot(weather_df, aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5) +
+  geom_smooth(se = FALSE)
+```
+
+
+```{r}
+ggplot(weather_df, aes(x = tmin, y = tmax, color = name)) + 
+  geom_point(alpha = .5) +
+  geom_smooth(se = FALSE) + 
+  facet_grid(. ~ name)
+```
+
+LEt's make a somewhat more interesting scatterplot
+
+```{r}
+ggplot(weather_df, aes(x = date, y = tmax, color = name)) + 
+  geom_point(aes(size = prcp), alpha = .5) +
+  geom_smooth(se = FALSE) + 
+  facet_grid(. ~ name)
+```
+
+```{r eval = FALSE}
+
+colnames(weather_df)
+
+weather_df = 
+  filter(name == "CentralPark_NY") %>%  
+  mutate(
+    tmax_fahr = tmax * (9/5) + 32, 
+    tmin_fahr = tmin * (9/5) + 32
+  ) %>% 
+  ggplot(aes(x = tmin_fahr, y = tmax_fahr)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+```{r}
+ggplot(weather_df, aes(x = date, y = tmax, color = name)) + 
+  geom_smooth(se = FALSE) 
+```
+
+
+```{r}
+ggplot(weather_df, aes(x = tmax, y = tmin)) + 
+  geom_hex()
+```
+
+```{r}
+ggplot(weather_df) + geom_point(aes(x = tmax, y = tmin), color = "blue")
+```
+
+##Univariate plits
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x = tmin, fill = name)) + 
+  geom_histogram(position = "dodge")
+```
+
+how would I fix this? maybe facet?
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x = tmin, fill = name)) + 
+  geom_histogram() +
+  facet_grid(.~ name)
+```
+
+maybe a density plot?
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x = tmin, fill = name)) +
+  geom_density(alpha = .3)
+```
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x = name, y = tmin, fill = name))+
+  geom_boxplot()
+```
+
+violin plots
+```{r}
+weather_df %>% 
+  ggplot(aes(x = name , y = tmin, fill = name)) +
+  geom_violin()
+```
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x = name , y = tmin)) +
+  geom_density_ridges()
+```
+
+LEarning assessment
+```{r}
+weather_df %>% 
+  ggplot(aes(x = name , y = prcp, fill = name)) +
+  geom_violin()
+
+weather_df %>% 
+  ggplot(aes(x = name, y = prcp, fill = name))+
+  geom_boxplot()
+
+weather_df %>% 
+  filter(prcp > 10, prcp < 1000) %>% 
+  ggplot(aes(x = name, y = prcp, fill = name))+
+  geom_boxplot()
+
+weather_df %>% 
+  filter(prcp > 10, prcp < 1000) %>% 
+  ggplot(aes(x = prcp, fill = name))+
+  geom_density(alpha = .3)
 ```
 
