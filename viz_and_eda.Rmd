@@ -173,5 +173,17 @@ weather_df %>%
   filter(prcp > 10, prcp < 1000) %>% 
   ggplot(aes(x = prcp, fill = name))+
   geom_density(alpha = .3)
+
+```
+
+
+```{r eval= FALSE}
+ggsave("plots/ggp_weather.pdf", ggp_weather_scatterplot, width = 8, height = 6)
+```
+
+embedding plots
+
+```{r}
+weather_df 
 ```
 
